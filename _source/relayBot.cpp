@@ -2,8 +2,8 @@
 
 RelayBot::RelayBot(const int& listenPort)
 {
-	m_aioc = std::make_shared<asio::io_context>();
-	m_bot = std::make_shared<DppBot>();
+//	m_aioc = std::make_shared<asio::io_context>();
+//	m_bot = std::make_shared<DppBot>();
 
     m_listenPort = listenPort;
 }

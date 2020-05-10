@@ -1,6 +1,6 @@
 [![CMake](https://github.com/DiscordPP/echo-bot/workflows/CMake/badge.svg)](https://github.com/DiscordPP/echo-bot/actions?query=workflow%3ACMake)
 
-# Discord++ example bot, Echo<sup>Echo<sup>Echo</sup></sup>
+# Discord++ bot, based on ~[Discord++ template Echo-bot](https://github.com/DiscordPP/echo-bot)
 
 ## Community & Support <sup>Some incredibly nice people here!</sup>
 [Discord++ Discord Server](https://discord.gg/0usP6xmT4sQ4kIDh)
@@ -30,7 +30,7 @@
  * Click on your new 'Settings' tab, and rename your new repo
  
 #### Clone the Code
-Run `git clone --recursive https://github.com/discordpp/echo-bot.git` in your desired directory. If you made a fork, replace `discordpp` and `echo-bot` as applicable.
+Run `git clone --recursive https://github.com/NotMiaow/relay-bot.git` in your desired directory.
 
 ### Register a Bot
  1. Go to Discord's [Developer Portal 'Application' page](https://discordapp.com/developers/applications/), it will prompt you to sign in <sup>By the way, do you have 2FA enabled? It's a really good idea, especially with bots on your account</sup>

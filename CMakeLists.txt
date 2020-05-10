@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.7)
-project(echo_bot)
+project(relay_bot)
 
 set(CMAKE_CXX_STANDARD 14)
 
@@ -7,7 +7,7 @@ add_subdirectory(lib/discordpp)          # discordpp
 add_subdirectory(lib/rest-beast)         # discordpp-rest-beast
 add_subdirectory(lib/websocket-beast)    # discordpp-websocket-beast
 add_subdirectory(lib/plugin-overload)    # discordpp-plugin-overload
-add_subdirectory(lib/plugin-responder)         # discordpp-plugin-new
+add_subdirectory(lib/plugin-responder)   # discordpp-plugin-new
 
 set(SOURCE_FILES main.cc)
 add_executable(${PROJECT_NAME} ${SOURCE_FILES})
@@ -27,7 +27,12 @@ INCLUDE_DIRECTORIES(
         ${discordpp-plugin-responder_SOURCE_DIR}
         ${json_SOURCE_DIR}
         ${OPENSSL_INCLUDE_DIR}
+        ${PROJECT_SOURCE_DIR}/_lib/queue
+        ${PROJECT_SOURCE_DIR}/_lib/basic_lib
+        ${PROJECT_SOURCE_DIR}/_headers
 )
+
+add_subdirectory(_source)
 
 TARGET_LINK_LIBRARIES(
         ${PROJECT_NAME}
@@ -38,4 +43,5 @@ TARGET_LINK_LIBRARIES(
         Threads::Threads
         crypto
         ssl
+        RELAY_BOT_SOURCE
 )

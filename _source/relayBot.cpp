@@ -70,10 +70,19 @@ void RelayBot::Loop()
 		{
 			delayNextAPIRequest = true;
 			Message* message = &m_messageQueue.front();
+			std::cout << std::endl;
+			std::cout << "method: " << message->method << std::endl;
+			std::cout << "type: " << message->type << std::endl;
+			std::cout << "content: " << message->content << std::endl;
 			if(message->method != "")
 			{
-				if(message->method == "SHUTDOWN")
+				if(message->method == "shutdown")
+				{
+					m_networkManager.MessageClient("shutdown;;");
 					Stop();
+				}
+				if(message->method == "stop")
+					m_networkManager.MessageClient("shutdown;;");
 //				else
 //					m_bot->call(message->method, message->type, message->content);
 			}
@@ -81,6 +90,11 @@ void RelayBot::Loop()
 		}
 		std::this_thread::sleep_for(std::chrono::milliseconds(15));
 	}
+}
+
+bool RelayBot::Alive()
+{
+	return m_alive;
 }
 
 void RelayBot::LoadToken()

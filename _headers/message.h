@@ -2,18 +2,16 @@
 #define MESSAGE_H__
 
 #include <string>
+#include <vector>
 #include <nlohmann/json.hpp>
 #include "basicLib.h"
 
 struct Message
 {
     Message() {}
-    Message(std::string message)
+    Message(const std::string& message)
     {
-        std::vector<std::string> parameters;
-    	if (content.length() - message.length() != 0)
-	    	parameters = Split(content, ';');
-        
+        std::vector<std::string> parameters = Split(message, ';');
         if(parameters.size() == 3)
         {
             this->method = parameters[0];

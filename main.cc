@@ -7,17 +7,13 @@ int main(){
 	relayBot.Init();
 	relayBot.Start();
 
-	bool alive = true;
-	while(alive)
+	while(relayBot.Alive())
 	{
 		std::string command;
 		std::getline(std::cin, command);
 		if(command == "stop")
-		{
-			alive = false;
-		}
+			relayBot.Stop();
 	}
-	relayBot.Stop();
 	return 0;
 }
 

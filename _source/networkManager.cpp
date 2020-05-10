@@ -77,6 +77,8 @@ void NetworkManager::AcceptConnection(sockaddr_in& address)
         m_socketActive = true;
         if (m_clientThread.joinable()) m_clientThread.join();
         m_clientThread = std::thread(&NetworkManager::ListenToClient, this);
+
+		std::cout << "Mia has reached out, we shall be chatting. :)" << std::endl;
 	}
 }
 
@@ -144,7 +146,7 @@ int NetworkManager::GetMessageLength(std::string& cutMessage)
 	{
 		sMessageLength = cutMessage.substr(0,pos);
 		iMessageLength = std::stoi(sMessageLength);
-		cutMessage = cutMessage.substr(pos);
+		cutMessage = cutMessage.substr(pos + 1);
 	}
 	return iMessageLength;
 }
@@ -152,7 +154,7 @@ int NetworkManager::GetMessageLength(std::string& cutMessage)
 void NetworkManager::MessageClient(std::string message)
 {
 	//Add message length to message
-	message = std::to_string(message.length()) + message;
+	message = std::to_string(message.length())  + ";" + message;
 
 	//Send message
 	std::string cutMessage;

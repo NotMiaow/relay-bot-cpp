@@ -33,6 +33,7 @@ public:
     void Start();
     void Loop();
     void Stop();
+    bool Alive();
     void LoadToken();
     void WaitForTerminate();
     std::istream &safeGetline(std::istream &is, std::string &t);

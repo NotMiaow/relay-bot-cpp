@@ -2,16 +2,15 @@
 
 NetworkManager::~NetworkManager()
 {
-	close(m_listeningSocket);
 	m_listeningThread.join();
     m_clientThread.join();
 	m_terminateThread.join();
 }
 
-void NetworkManager::Init(std::shared_future<void>&& serverFuture, const int serverPort, SharedQueue<Message>& messageQueue)
+void NetworkManager::Init(const int serverPort, SharedQueue<Message>& messageQueue)
 {
-	m_serverFuture = serverFuture;
-    m_alive = true;
+ 	m_alive = true;
+	m_futureObj = m_exitSignal.get_future();  
 	m_terminateThread = std::thread(&NetworkManager::WaitForTerminate, this);
 
 	m_serverPort = serverPort;
@@ -133,8 +132,6 @@ void NetworkManager::ListenToClient()
 	} while (iResult > 0 && m_alive);
 	close(m_clientSocket);
 	m_socketActive = false;
-
-	iResult = shutdown(m_clientSocket, SHUT_WR);
 }
 
 int NetworkManager::GetMessageLength(std::string& cutMessage)
@@ -185,10 +182,16 @@ bool NetworkManager::SendString(std::string cutMessage)
 	return true;
 }
 
+void NetworkManager::Stop()
+{
+	if(m_futureObj.wait_for(std::chrono::milliseconds(1)) == std::future_status::timeout)
+		m_exitSignal.set_value();
+    m_alive = false;
+}
+
 void NetworkManager::WaitForTerminate()
 {
-    while(m_serverFuture.wait_for(std::chrono::milliseconds(400)) == std::future_status::timeout);
-    m_alive = false;
+    while(m_futureObj.wait_for(std::chrono::milliseconds(400)) == std::future_status::timeout);
 
 	//Connect to itself to move past the accept bind in m_listeningThread
 	//Allowing to join() in the destructor
@@ -205,7 +208,6 @@ void NetworkManager::WaitForTerminate()
 
     if(m_socketActive)
     {
-        shutdown(m_clientSocket, SHUT_RDWR);
         close(m_clientSocket);
         m_socketActive = false;
     }	

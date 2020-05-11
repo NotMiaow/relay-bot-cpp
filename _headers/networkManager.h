@@ -20,8 +20,9 @@ class NetworkManager
 public:
     NetworkManager() { }
 	~NetworkManager();
-	void Init(std::shared_future<void>&& serverFuture, const int serverPort, SharedQueue<Message>& messageQueue);
+	void Init(const int serverPort, SharedQueue<Message>& messageQueue);
 	void MessageClient(std::string message);
+	void Stop();
 private:
 	bool SetUpClientEnvironment(const int serverPort);
 	void AcceptConnection(sockaddr_in& address);
@@ -30,8 +31,9 @@ private:
 	bool SendString(std::string cutMessage);
 	void WaitForTerminate();
 private:
-	std::shared_future<void> m_serverFuture;
 	std::atomic<bool> m_alive;
+	std::promise<void> m_exitSignal;
+	std::shared_future<void> m_futureObj;
 	std::thread m_terminateThread;
 	std::thread m_listeningThread;
     std::thread m_clientThread;

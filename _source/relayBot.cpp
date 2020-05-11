@@ -36,7 +36,7 @@ void RelayBot::Start()
 	// Fire threads
 	m_listenLoop = std::thread(&RelayBot::Loop, this);
 	m_terminateThread = std::thread(&RelayBot::WaitForTerminate, this);
-	m_networkManager.Init(std::move(futureObj), m_listenPort, m_messageQueue);
+	m_networkManager.Init(m_listenPort, m_messageQueue);
 
     //Start Bot
 //	m_bot->initBot(6, m_token, m_aioc);
@@ -69,20 +69,21 @@ void RelayBot::Loop()
 		else if(m_messageQueue.size())
 		{
 			delayNextAPIRequest = true;
+			std::cout << m_messageQueue.size() << std::endl;
 			Message* message = &m_messageQueue.front();
-			std::cout << std::endl;
 			std::cout << "method: " << message->method << std::endl;
 			std::cout << "type: " << message->type << std::endl;
 			std::cout << "content: " << message->content << std::endl;
 			if(message->method != "")
 			{
-				if(message->method == "shutdown")
+				if(message->method == "shut")
 				{
-					m_networkManager.MessageClient("shutdown;;");
+					m_networkManager.MessageClient("shut");
+					m_networkManager.Stop();
 					Stop();
 				}
-				if(message->method == "stop")
-					m_networkManager.MessageClient("shutdown;;");
+				else if(message->method == "stop")
+					m_networkManager.MessageClient("shut");
 //				else
 //					m_bot->call(message->method, message->type, message->content);
 			}
@@ -110,12 +111,12 @@ void RelayBot::LoadToken()
 
 void RelayBot::WaitForTerminate()
 {
-    while(m_alive && futureObj.wait_for(std::chrono::milliseconds(1000)) == std::future_status::timeout);
+    while(m_alive && futureObj.wait_for(std::chrono::milliseconds(50)) == std::future_status::timeout);
 }
 
 void RelayBot::Stop()
 {
-	if(futureObj.wait_for(std::chrono::milliseconds(1)) == std::future_status::timeout)
+	if(futureObj.wait_for(std::chrono::milliseconds(50)) == std::future_status::timeout)
 		m_exitSignal.set_value();
     m_alive = false;
 //	m_aioc->stop();

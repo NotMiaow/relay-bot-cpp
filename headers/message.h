@@ -6,6 +6,8 @@
 #include <nlohmann/json.hpp>
 #include "basicLib.h"
 
+using json = nlohmann::json;
+
 struct Message
 {
     Message() {}
@@ -16,14 +18,14 @@ struct Message
         {
             this->method = parameters[0];
             this->type = parameters[1];
-            this->content = parameters[2];
+            this->content = parameters[2] == "" ? "" : json::parse(parameters[2]);
         }
     }
     ~Message() { }
 
     std::string method = "";
     std::string type = "";
-    std::string content = "";
+    json content = "";
 };
 
 #endif

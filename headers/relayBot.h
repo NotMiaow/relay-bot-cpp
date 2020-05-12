@@ -7,21 +7,12 @@
 #include <chrono>
 #include <string>
 
-//#include <boost/asio.hpp>
-//#include <discordpp/bot.hh>
-//#include <discordpp/plugin-overload.hh>
-//#include <discordpp/rest-beast.hh>
-//#include <discordpp/websocket-beast.hh>
-//#include <discordpp/plugin-responder.hh>
 
 #include "shared_queue.h"
 #include "message.h"
 #include "networkManager.h"
 
-//namespace asio = boost::asio;
-//namespace dpp = discordpp;
 using json = nlohmann::json;
-//using DppBot = dpp::PluginResponder<dpp::PluginOverload<dpp::WebsocketBeast<dpp::RestBeast<dpp::Bot>>>>;
 
 class RelayBot
 {

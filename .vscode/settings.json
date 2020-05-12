@@ -1,0 +1,11 @@
+{
+    "files.exclude": {
+        ".*": true,
+        ".github/": true,
+        ".vscode/": true,
+        "build/[cCMl_]*": true,
+        "lib": true,
+        "LICENSE": true,
+        "README.md": true
+    }
+}

@@ -29,10 +29,10 @@ INCLUDE_DIRECTORIES(
         ${OPENSSL_INCLUDE_DIR}
         ${PROJECT_SOURCE_DIR}/_lib/queue
         ${PROJECT_SOURCE_DIR}/_lib/basic_lib
-        ${PROJECT_SOURCE_DIR}/headers
+        ${PROJECT_SOURCE_DIR}/_headers
 )
 
-add_subdirectory(source)
+add_subdirectory(_source)
 
 TARGET_LINK_LIBRARIES(
         ${PROJECT_NAME}

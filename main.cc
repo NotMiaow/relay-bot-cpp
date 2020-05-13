@@ -70,7 +70,7 @@ int main(){
 	
 	//Prepare bot
 	bot->debugUnhandled = false;
-	bot->prefix = "~";
+	bot->prefix = "/";
 	//Create handlers
 	CreateHandlers(std::ref(bot));
 

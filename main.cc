@@ -86,8 +86,9 @@ int main(){
     //Start Bot
 	bot->initBot(6, m_token, aioc);
 	bot->run();
-	while(m_alive) std::this_thread::sleep_for(std::chrono::milliseconds(200));
-
+	Stop(std::ref(aioc));
+	m_networkManager.Stop();
+	m_networkManager.MessageClient("relaunching");
     if(m_listenLoop.joinable()) m_listenLoop.join();
     if(m_terminateThread.joinable()) m_terminateThread.join();
 	return 0;

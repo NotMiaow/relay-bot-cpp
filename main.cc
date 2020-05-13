@@ -146,6 +146,7 @@ void CreateHandlers(std::shared_ptr<DppBot>& bot)
 	bot->handlers.insert({
 		"MESSAGE_CREATE",
 		[&bot, &self](json msg) {
+			std::cout << "new_message" << std::endl;
 			if(msg["content"].get<std::string>().substr(0,1) == bot->prefix)
 			{
 				std::string content = msg["content"].get<std::string>().substr(1);
@@ -181,6 +182,7 @@ void CreateHandlers(std::shared_ptr<DppBot>& bot)
 	bot->handlers.insert({
 			"CHANNEL_DELETE",
 			[&bot, &self](json msg) {
+				std::cout << "CHANNEL_DELETE" << std::endl;
 				std::string command = "empty";
 				Event event(true, "", "", "", command, "");
 				m_networkManager.MessageClient(event.ToNetworkable());
@@ -188,13 +190,7 @@ void CreateHandlers(std::shared_ptr<DppBot>& bot)
 	bot->handlers.insert({
 			"CHANNEL_UPDATE",
 			[&bot, &self](json msg) {
-				std::string command = "empty";
-				Event event(true, "", "", "", command, "");
-				m_networkManager.MessageClient(event.ToNetworkable());
-			}});
-	bot->handlers.insert({
-			"GUILD_MEMBERS",
-			[&bot, &self](json msg) {
+				std::cout << "CHANNEL_UPDATE" << std::endl;
 				std::string command = "empty";
 				Event event(true, "", "", "", command, "");
 				m_networkManager.MessageClient(event.ToNetworkable());
@@ -202,8 +198,20 @@ void CreateHandlers(std::shared_ptr<DppBot>& bot)
 	bot->handlers.insert({
 			"GUILD_MEMBER_UPDATE",
 			[&bot, &self](json msg) {
+				std::cout << "GUILD_MEMBER_UPDATE" << std::endl;
+				std::cout << msg << std::endl;
 				std::string command = "empty";
 				Event event(true, "", "", "", command, "");
+				m_networkManager.MessageClient(event.ToNetworkable());
+			}});
+	bot->handlers.insert({
+			"VOICE_STATE_UPDATE",
+			[&bot, &self](json msg) {
+				std::string command = "voice-update";
+				std::string userId = msg["user_id"];
+				std::string channelId = msg["channel_id"].is_null() ? "" : msg["channel_id"];
+				std::string guildId = msg["guild_id"].is_null() ? "" : msg["guild_id"];
+				Event event(true, userId, channelId, guildId, command, "");
 				m_networkManager.MessageClient(event.ToNetworkable());
 			}});
 }

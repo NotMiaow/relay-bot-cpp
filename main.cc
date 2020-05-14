@@ -158,7 +158,8 @@ void CreateHandlers(std::shared_ptr<DppBot>& bot)
 					std::string userId = msg["author"]["id"];
 					std::string channelId = msg["channel_id"];
 					std::string guildId = msg["guild_id"].is_null() ? "" : msg["guild_id"];
-					Event event(false, userId, channelId, guildId, command, content);
+					std::string userName = msg["author"]["username"];
+					Event event(false, userId, channelId, guildId, userName, command, content);
 					m_networkManager.MessageClient(event.ToNetworkable());
 				}
 			}
@@ -175,7 +176,7 @@ void CreateHandlers(std::shared_ptr<DppBot>& bot)
 						std::to_string(msg["position"].get<int>()) + " " +
 						std::to_string(msg["type"].get<int>());
 					
-					Event event(true, "", "", "", command, content);
+					Event event(true, "", "", "", "", command, content);
 					m_networkManager.MessageClient(event.ToNetworkable());
 				}
 			}});
@@ -184,7 +185,7 @@ void CreateHandlers(std::shared_ptr<DppBot>& bot)
 			[&bot, &self](json msg) {
 				std::cout << "CHANNEL_DELETE" << std::endl;
 				std::string command = "empty";
-				Event event(true, "", "", "", command, "");
+				Event event(true, "", "", "", "", command, "");
 				m_networkManager.MessageClient(event.ToNetworkable());
 			}});
 	bot->handlers.insert({
@@ -192,7 +193,7 @@ void CreateHandlers(std::shared_ptr<DppBot>& bot)
 			[&bot, &self](json msg) {
 				std::cout << "CHANNEL_UPDATE" << std::endl;
 				std::string command = "empty";
-				Event event(true, "", "", "", command, "");
+				Event event(true, "", "", "", "", command, "");
 				m_networkManager.MessageClient(event.ToNetworkable());
 			}});
 	bot->handlers.insert({
@@ -201,7 +202,7 @@ void CreateHandlers(std::shared_ptr<DppBot>& bot)
 				std::cout << "GUILD_MEMBER_UPDATE" << std::endl;
 				std::cout << msg << std::endl;
 				std::string command = "empty";
-				Event event(true, "", "", "", command, "");
+				Event event(true, "", "", "", "", command, "");
 				m_networkManager.MessageClient(event.ToNetworkable());
 			}});
 	bot->handlers.insert({
@@ -211,7 +212,7 @@ void CreateHandlers(std::shared_ptr<DppBot>& bot)
 				std::string userId = msg["user_id"];
 				std::string channelId = msg["channel_id"].is_null() ? "" : msg["channel_id"];
 				std::string guildId = msg["guild_id"].is_null() ? "" : msg["guild_id"];
-				Event event(true, userId, channelId, guildId, command, "");
+				Event event(true, userId, channelId, guildId, "", command, "");
 				m_networkManager.MessageClient(event.ToNetworkable());
 			}});
 }

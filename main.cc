@@ -212,7 +212,7 @@ void CreateHandlers(std::shared_ptr<DppBot>& bot)
 				std::string userId = msg["user_id"];
 				std::string channelId = msg["channel_id"].is_null() ? "" : msg["channel_id"];
 				std::string guildId = msg["guild_id"].is_null() ? "" : msg["guild_id"];
-				Event event(true, userId, channelId, guildId, "", command, "");
+				Event event(false, userId, channelId, guildId, "", command, "");
 				m_networkManager.MessageClient(event.ToNetworkable());
 			}});
 }
